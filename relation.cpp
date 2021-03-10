@@ -69,11 +69,19 @@ int main()
             while (!result.empty())
             {
                 string resultLast = result[result.size() - 1];
-                string lastLetter = resultLast.substr(0, resultLast.length() - 1);
+                string lastLetter = resultLast.substr(0, 1);
 
                 if (find(noneTerminals.begin(), noneTerminals.end(), lastLetter) != noneTerminals.end()) //Nem terminális esete
                 {
-                    int lastNumber = resultLast[resultLast.length() - 1] - '0';
+                    string ruleNumber;
+                    for (int i = 0; i < resultLast.length(); i++)
+                    {
+                        if (isdigit(resultLast[i]))
+                        {
+                            ruleNumber.push_back(resultLast[i]);
+                        }
+                    }
+                    int lastNumber = stoi(ruleNumber);
 
                     vector<pair<string, string>> searchedBackRules = getOneTypeRule(lastLetter);
 
@@ -112,13 +120,13 @@ int main()
     if (success)
     {
         string resultString;
-        for_each(result.begin(), result.end(), [&](const std::string &piece) { resultString += piece; });
+        for_each(result.begin(), result.end(), [&](const std::string &piece) { resultString += "(" + piece + ")"; });
         cout << "Sikeres elemzes!" << endl;
         cout << "Eredmeny: " << resultString << endl;
     }
     else
     {
         cout << "Sikertelen elemzes!" << endl;
-        cout << "Nincs végkonfiguráció!" << endl;
+        cout << "Nincs vegkonfiguracio!" << endl;
     }
 }
